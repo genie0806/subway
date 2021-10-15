@@ -24,7 +24,6 @@ class CardWidget extends StatelessWidget {
               softWrap: true,
             ),
             Text(subwayList.arvlMsg2),
-            Text(subwayList.barvlDt),
           ],
         ),
       ),

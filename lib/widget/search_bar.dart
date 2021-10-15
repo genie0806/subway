@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class Searchbar extends StatelessWidget {
   final TextEditingController controller;
-  const Searchbar({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
+  final void Function(String) onChanged;
+  const Searchbar({Key? key, required this.controller, required this.onChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +14,7 @@ class Searchbar extends StatelessWidget {
       child: TextField(
         cursorColor: Colors.blue,
         controller: controller,
+        onChanged: onChanged,
         decoration: const InputDecoration(
           labelText: 'Subway Search',
           hintText: '지하철 검색',

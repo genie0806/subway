@@ -12,11 +12,18 @@ class SubwaySearch extends StatefulWidget {
 }
 
 class _SubwaySearchState extends State<SubwaySearch> {
+  final _searchController = TextEditingController();
+  final _query = '';
+  final _apiData = SubwayApi();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _searchController = TextEditingController();
-    const _query = '';
-    final _apiData = SubwayApi();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sunway Search'),
@@ -29,8 +36,12 @@ class _SubwaySearchState extends State<SubwaySearch> {
               children: [
                 Expanded(
                   child: Searchbar(
-                    controller: _searchController,
-                  ),
+                      controller: _searchController,
+                      onChanged: (query) {
+                        setState(() {
+                          query = _query;
+                        });
+                      }),
                 ),
                 InkWell(
                   onTap: () {
@@ -47,7 +58,8 @@ class _SubwaySearchState extends State<SubwaySearch> {
           ),
           FutureBuilder<List<RealtimeArrivalList>>(
             initialData: const [],
-            future: _apiData.fetchSearchData(_searchController.text),
+            future: _apiData.fetchSearchData(
+                _searchController.text.isEmpty ? '용산' : _searchController.text),
             builder:
                 (context, AsyncSnapshot<List<RealtimeArrivalList>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
